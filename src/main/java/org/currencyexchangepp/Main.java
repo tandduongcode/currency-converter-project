@@ -11,6 +11,31 @@ public class Main {
         List<String> symbols = new LinkedList<>();
         Scanner cin = new Scanner(System.in);
 
+        System.out.println("Enter currency base:");
+        String base = cin.next().toUpperCase().trim();
+        System.out.println("Currency from: " + base);
+
+        System.out.println("Enter number of Symbols: ");
+        int size = cin.nextInt();
+
+        while (size <= 0) {
+            System.out.println("Must be > 0. Please re-enter");
+            size = cin.nextInt();
+        }
+
+        for(int i = 0; i < size; i++) {
+            System.out.println("Enter symbols:");
+            String symbol = cin.next().toUpperCase().trim();
+            symbols.add(symbol);
+            System.out.println("Symbol " + i + ": " + symbol);
+        }
+
+        String responseLastestAPI =
+                CurrencyConverterService
+                        .makeApplicationRestrictedRequest(getLastestEndPoints(base, symbols), getAPIKey());
+        System.out.println("Lastest rate: " + responseLastestAPI);
+        System.out.println();
+
         System.out.println("Enter currency base type FROM:");
         String from = cin.next();
         System.out.println("Currency from: " + from.toUpperCase());
@@ -36,32 +61,11 @@ public class Main {
                         );
 
         System.out.println("convert from " + from + " to " + to + " : " +response);
-//
-//        System.out.println("Enter currency base:");
-//        String base = cin.next().toUpperCase().trim();
-//        System.out.println("Currency from: " + base);
-//
-//        System.out.println("Enter number of Symbols: ");
-//        int size = cin.nextInt();
-//
-//        while (size <= 0) {
-//            System.out.println("Must be > 0. Please re-enter");
-//            size = cin.nextInt();
-//        }
-//
-//        for(int i = 0; i < size; i++) {
-//            System.out.println("Enter symbols:");
-//            String symbol = cin.next().toUpperCase().trim();
-//            symbols.add(symbol);
-//            System.out.println("Symbol " + i + ": " + symbol);
-//        }
-//
-//        String responseLastestAPI =
-//                CurrencyConverterService
-//                        .makeApplicationRestrictedRequest(getLastestEndPoints(base, symbols), getAPIKey());
-//        System.out.println("Lastest rate: " + responseLastestAPI);
-//        System.out.println();
-        saveJsonToFile("rateConverter.txt", response);
-        openFile("rateConverter.txt");
+
+        saveJsonToFile("lastestRatesFrom" + base + "toSymbolsIn" + getCurrentDate() + ".txt", responseLastestAPI);
+        openFile("lastestRatesFrom" + base + "toSymbolsIn" + getCurrentDate() + ".txt");
+
+        saveJsonToFile("rateConverterFrom" + from + "to" + to + ".txt", response);
+        openFile("rateConverterFrom" + from + "to" + to + ".txt");
     }
 }
