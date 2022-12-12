@@ -39,7 +39,7 @@ public class CurrencyConverterService {
     }
 
     public static String getAPIKey(){
-        return "FD4cW1BEONK0uk9Szoci1qHRLmpinkot";
+        return "API_KEY";
     }
 
     public static void saveJsonToFile(String filename, String message){
